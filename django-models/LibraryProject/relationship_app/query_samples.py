@@ -14,4 +14,14 @@ def list_all_books_in_library(library_name):
         books = Book.objects.all()
         return books
     except Library.DoesNotExist:
+        return f"Library {library} not found."
+
+def retrieve_librarian_for_library(library_name):
+    try:
+        library = Library.objects.get(name = library_name)
+        librarian = library.librarian
+        return librarian
+    except Library.DoesNotExist:
+        return f"Library {library_name} not found."
+    except Librarian.DoesNotExist:
         return f"Library {library_name} not found."
