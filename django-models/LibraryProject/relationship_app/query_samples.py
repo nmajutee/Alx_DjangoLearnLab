@@ -1,12 +1,12 @@
 from relationship_app.models import Author, Book, Library, Librarian
 
-def query_books_by_author(name_value):
+def query_books_by_author(author_name):
     try:
-        author = Author.objects.get(name=name_value)
-        book = Book.objects.filter(author=author)
+        author_name = Author.objects.get(name=author_name)
+        book = Book.objects.filter(author=author_name)
         return book
     except Author.DoesNotExist:
-        print(f"Author '{name_value}' does not exist.")
+        print(f"Author '{author_name}' does not exist.")
         return None
 
 
