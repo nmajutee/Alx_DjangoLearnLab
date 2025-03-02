@@ -17,7 +17,7 @@ class Book(models.Model):
 
 # Create Library model
 class Library(models.Model):
-    library_name = models.CharField(max_length = 100)
+    library = models.CharField(max_length = 100)
     books = models.ManyToManyField(Book, related_name= 'books')
     
     def __str__(self):
