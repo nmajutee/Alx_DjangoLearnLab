@@ -2,10 +2,10 @@ from django.db import models
 
 # Create Author model
 class Author(models.Model):
-    name = models.CharField(max_length = 100)
+    author_name = models.CharField(max_length = 100)
     
     def __str__(self):
-        return self.name
+        return self.author_name
 
 # Create Book model
 class Book(models.Model):
@@ -21,7 +21,7 @@ class Library(models.Model):
     books = models.ManyToManyField(Book, related_name= 'books')
     
     def __str__(self):
-        return self.name
+        return self.library_name
     
 # Create Librarian model
 class Librarian(models.Model):    
