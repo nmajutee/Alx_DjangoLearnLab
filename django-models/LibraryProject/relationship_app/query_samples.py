@@ -19,14 +19,14 @@ def list_all_books_in_library(library_name):
         print(f"Library '{library_name}' does not exist.")
         return None
     
-def retrieve_librarian_for_library(name_value):
+def retrieve_librarian_for_library(library_name):
     try:
-        library = Library.objects.get(name=name_value)
+        library = Library.objects.get(library=library_name)
         librarian = library.librarian
         return librarian
     except Library.DoesNotExist:
-        print(f"Library '{name_value}' does not exist.")
+        print(f"Library '{library_name}' does not exist.")
         return None
     except Librarian.DoesNotExist:
-        print(f"No librarian assigned for library '{name_value}'.")
+        print(f"No librarian assigned for library '{library_name}'.")
         return None
