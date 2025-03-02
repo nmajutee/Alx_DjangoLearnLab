@@ -12,9 +12,8 @@ def query_books_by_author(name_value):
 
 def list_all_books_in_library(library_name):
     try:
-        library = Library.objects.get(name = library_name)
-        books = library.objects.all()
-        return books
+        books = Library.objects.get(name = library_name)
+        return books.all()
     except Library.DoesNotExist:
         print(f"Library '{library_name}' does not exist.")
         return None
