@@ -10,13 +10,13 @@ def query_books_by_author(name_value):
         return None
 
 
-def list_all_books_in_library(name_value):
+def list_all_books_in_library(library_name):
     try:
-        library = Library.objects.get(name = name_value)
+        library = Library.objects.get(name = library_name)
         books = library.objects.all()
         return books
     except Library.DoesNotExist:
-        print(f"Library '{name_value}' does not exist.")
+        print(f"Library '{library_name}' does not exist.")
         return None
     
 def retrieve_librarian_for_library(name_value):
