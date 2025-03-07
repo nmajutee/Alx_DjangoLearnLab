@@ -1,8 +1,8 @@
 from relationship_app.models import Author, Book, Library, Librarian
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from .models import Library
-from django.http import HttpResponse
 
 def list_book_view(request):
     books = Book.objects.all()
