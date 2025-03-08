@@ -1,5 +1,5 @@
 from relationship_app.models import Author, Book, Library, Librarian
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 from django.shortcuts import render
 from .models import Library
 
