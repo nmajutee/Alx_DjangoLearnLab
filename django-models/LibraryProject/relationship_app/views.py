@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Book, Author, Library
+from .models import Author
+from .models import Book
+from .models import Library
 
 def list_all_books(request):
     """Retrieves all books and renders a template displaying the list of books, titles and their authors"""
