@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView, LogoutView
 from .models import Author
 from .models import Book
 from .models import Library
@@ -26,15 +25,6 @@ class LibraryDetailView(DetailView):
     """A class-based view for displaying details of a specific library."""
     model = Library
     template_name = 'relationship_app/library_detail.html'
-
-# Authentication Views
-class CustomLoginView(LoginView):
-    """Custom login view using Django's built-in LoginView"""
-    template_name = 'relationship_app/login.html'
-
-class CustomLogoutView(LogoutView):
-    """Custom logout view using Django's built-in LogoutView"""
-    template_name = 'relationship_app/logout.html'
 
 def register(request):
     """Registration view for new users"""
