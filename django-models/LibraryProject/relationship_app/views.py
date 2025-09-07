@@ -4,7 +4,7 @@ from .models import Author
 from .models import Book
 from .models import Library
 
-def list_all_books(request):
+def list_books(request):
     """Retrieves all books and renders a template displaying the list of books, titles and their authors"""
     books = Book.objects.all()
     authors = Author.objects.all()
