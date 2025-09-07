@@ -9,7 +9,12 @@
     <!-- Navigation/Authentication Links -->
     <div style="text-align: right; margin-bottom: 20px;">
         {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}! | <a href="{% url 'logout' %}">Logout</a></p>
+            <p>Welcome, {{ user.username }}! |
+            {% if user.userprofile.role %}
+                Role: {{ user.userprofile.role }} |
+                <a href="{% url user.userprofile.role|lower|add:'_view' %}">My Dashboard</a> |
+            {% endif %}
+            <a href="{% url 'logout' %}">Logout</a></p>
         {% else %}
             <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
         {% endif %}
@@ -31,5 +36,16 @@
         <li>{{ author.name }}</li>
         {% endfor %}
     </ul>
+
+    <!-- Role-based Navigation -->
+    {% if user.is_authenticated %}
+        <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
+            <h3>Quick Access:</h3>
+            <p><a href="{% url 'admin_view' %}">🔧 Admin Dashboard</a> (Admin only)</p>
+            <p><a href="{% url 'librarian_view' %}">📖 Librarian Dashboard</a> (Librarian only)</p>
+            <p><a href="{% url 'member_view' %}">📚 Member Dashboard</a> (Member only)</p>
+            <small><em>Note: You can only access dashboards matching your role.</em></small>
+        </div>
+    {% endif %}
 </body>
 </html>
