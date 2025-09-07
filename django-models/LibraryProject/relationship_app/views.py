@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Book, Author
+from .models import Book, Author, Library
 
 def list_all_books(request):
     """Retrieves all books and renders a template displaying the list of books, titles and their authors"""
@@ -16,3 +16,8 @@ class BookDetailView(DetailView):
     """A class-based view for displaying details of a specific book."""
     model = Book
     template_name = 'relationship_app/book_detail.html'
+
+class LibraryDetailView(DetailView):
+    """A class-based view for displaying details of a specific library."""
+    model = Library
+    template_name = 'relationship_app/library_detail.html'
