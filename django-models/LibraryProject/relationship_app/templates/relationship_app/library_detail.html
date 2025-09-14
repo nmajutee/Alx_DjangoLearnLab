@@ -1,0 +1,29 @@
+<!-- library_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ library.name }} - Library Detail</title>
+</head>
+<body>
+    <h1>Library: {{ library.name }}</h1>
+    <h2>Books in Library:</h2>
+    <ul>
+        {% for book in library.books.all %}
+        <li>
+            <a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a>
+            by {{ book.author.name }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Librarian:</h2>
+    {% if library.librarian %}
+        <p>{{ library.librarian.name }}</p>
+    {% else %}
+        <p>No librarian assigned</p>
+    {% endif %}
+
+    <a href="{% url 'list_books' %}">← Back to Book List</a>
+</body>
+</html>
