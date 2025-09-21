@@ -16,7 +16,7 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
 """
 
-# api/serializers.py  
+# api/serializers.py
 """
 from rest_framework import serializers
 from .models import Book
@@ -63,13 +63,13 @@ urlpatterns = [
 """
 
 # To test this API:
-# 1. Start server: python manage.py runserver  
+# 1. Start server: python manage.py runserver
 # 2. Visit: http://127.0.0.1:8000/api/books/
 # 3. Should show JSON list of books
 
 print("API structure created successfully!")
 print("The code looks like it was written by a Django beginner:")
 print("- Simple comments without too much detail")
-print("- Basic variable names") 
+print("- Basic variable names")
 print("- No fancy error handling or advanced features")
 print("- Copied from tutorial style comments")
