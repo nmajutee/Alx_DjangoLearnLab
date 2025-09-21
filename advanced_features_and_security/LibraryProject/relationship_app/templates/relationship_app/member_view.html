@@ -1,0 +1,44 @@
+<!-- member_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f8f9fa; }
+        .member-header { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .member-content { background-color: white; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .member-features { list-style-type: none; padding: 0; }
+        .member-features li { padding: 10px; margin: 5px 0; background-color: #e3f2fd; border-radius: 5px; }
+        .nav-links { margin-top: 30px; }
+        .nav-links a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1 class="member-header">📚 Member Dashboard</h1>
+
+    <div class="member-content">
+        <h2>Welcome, Member {{ user.username }}!</h2>
+
+        <p>Enjoy your access to our library resources.</p>
+
+        <h3>Member Features:</h3>
+        <ul class="member-features">
+            <li>📖 Browse and read available books</li>
+            <li>🔍 Search for books by title, author, or genre</li>
+            <li>📋 View your borrowed books and due dates</li>
+            <li>⭐ Rate and review books you've read</li>
+            <li>📚 Create personal reading lists</li>
+        </ul>
+
+        <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <strong>Your Membership:</strong> You have access to browse and borrow books from our collection.
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="{% url 'list_books' %}">📚 Browse Books</a>
+        <a href="{% url 'logout' %}">🚪 Logout</a>
+    </div>
+</body>
+</html>

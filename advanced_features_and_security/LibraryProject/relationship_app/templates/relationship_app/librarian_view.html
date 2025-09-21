@@ -1,0 +1,44 @@
+<!-- librarian_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Librarian Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f8f9fa; }
+        .librarian-header { color: #28a745; border-bottom: 2px solid #28a745; padding-bottom: 10px; }
+        .librarian-content { background-color: white; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .librarian-features { list-style-type: none; padding: 0; }
+        .librarian-features li { padding: 10px; margin: 5px 0; background-color: #e8f5e8; border-radius: 5px; }
+        .nav-links { margin-top: 30px; }
+        .nav-links a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1 class="librarian-header">📖 Librarian Dashboard</h1>
+
+    <div class="librarian-content">
+        <h2>Welcome, Librarian {{ user.username }}!</h2>
+
+        <p>You have access to library management functions.</p>
+
+        <h3>Librarian Features:</h3>
+        <ul class="librarian-features">
+            <li>📚 Manage book catalog and inventory</li>
+            <li>👤 Assist library members with their needs</li>
+            <li>📋 Track book loans and returns</li>
+            <li>🔍 Help users find books and resources</li>
+            <li>📊 Generate library usage reports</li>
+        </ul>
+
+        <div style="background-color: #d1ecf1; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <strong>Your Role:</strong> You can manage books and assist members with library services.
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="{% url 'list_books' %}">📚 View Books</a>
+        <a href="{% url 'logout' %}">🚪 Logout</a>
+    </div>
+</body>
+</html>

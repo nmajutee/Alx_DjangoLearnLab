@@ -1,0 +1,74 @@
+<!-- list_books.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Books</title>
+</head>
+<body>
+    <!-- Navigation/Authentication Links -->
+    <div style="text-align: right; margin-bottom: 20px;">
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}! |
+            {% if user.userprofile.role %}
+                Role: {{ user.userprofile.role }} |
+                <a href="{% url user.userprofile.role|lower|add:'_view' %}">My Dashboard</a> |
+            {% endif %}
+            <a href="{% url 'logout' %}">Logout</a></p>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+
+    <h1>Books Available:</h1>
+
+    <!-- Book Management Actions -->
+    {% if user.is_authenticated %}
+        <div style="margin-bottom: 20px; padding: 15px; background-color: #e9ecef; border-radius: 5px;">
+            <h3>📚 Book Management:</h3>
+            {% if perms.relationship_app.can_add_book %}
+                <a href="{% url 'add_book' %}" style="background-color: #28a745; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; margin-right: 10px;">➕ Add New Book</a>
+            {% endif %}
+            <small><em>Note: Book editing and deletion options are available next to each book (if you have permissions).</em></small>
+        </div>
+    {% endif %}
+
+    <ul>
+        {% for book in books %}
+        <li style="margin-bottom: 10px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+            <strong><a href="{% url 'book_detail' book.pk %}">{{ book.title }}</a></strong>
+            by {{ book.author.name }}
+
+            {% if user.is_authenticated %}
+                <div style="margin-top: 5px;">
+                    {% if perms.relationship_app.can_change_book %}
+                        <a href="{% url 'edit_book' book.id %}" style="color: #007bff; text-decoration: none; margin-right: 10px;">✏️ Edit</a>
+                    {% endif %}
+                    {% if perms.relationship_app.can_delete_book %}
+                        <a href="{% url 'delete_book' book.id %}" style="color: #dc3545; text-decoration: none;">🗑️ Delete</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>All Authors:</h2>
+    <ul>
+        {% for author in authors %}
+        <li>{{ author.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Role-based Navigation -->
+    {% if user.is_authenticated %}
+        <div style="margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
+            <h3>Quick Access:</h3>
+            <p><a href="{% url 'admin_view' %}">🔧 Admin Dashboard</a> (Admin only)</p>
+            <p><a href="{% url 'librarian_view' %}">📖 Librarian Dashboard</a> (Librarian only)</p>
+            <p><a href="{% url 'member_view' %}">📚 Member Dashboard</a> (Member only)</p>
+            <small><em>Note: You can only access dashboards matching your role.</em></small>
+        </div>
+    {% endif %}
+</body>
+</html>

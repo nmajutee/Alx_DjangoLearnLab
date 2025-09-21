@@ -1,0 +1,44 @@
+<!-- admin_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f8f9fa; }
+        .admin-header { color: #dc3545; border-bottom: 2px solid #dc3545; padding-bottom: 10px; }
+        .admin-content { background-color: white; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .admin-features { list-style-type: none; padding: 0; }
+        .admin-features li { padding: 10px; margin: 5px 0; background-color: #f1f3f4; border-radius: 5px; }
+        .nav-links { margin-top: 30px; }
+        .nav-links a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1 class="admin-header">🔧 Admin Dashboard</h1>
+
+    <div class="admin-content">
+        <h2>Welcome, Administrator {{ user.username }}!</h2>
+
+        <p>You have full administrative access to the library system.</p>
+
+        <h3>Administrative Features:</h3>
+        <ul class="admin-features">
+            <li>👥 Manage all users and their roles</li>
+            <li>📚 Full access to all books and library operations</li>
+            <li>🏛️ Manage library settings and configurations</li>
+            <li>📊 View system reports and analytics</li>
+            <li>🔐 Manage permissions and security settings</li>
+        </ul>
+
+        <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <strong>Note:</strong> As an administrator, you have unrestricted access to all system functions.
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="{% url 'list_books' %}">📚 View Books</a>
+        <a href="{% url 'logout' %}">🚪 Logout</a>
+    </div>
+</body>
+</html>
