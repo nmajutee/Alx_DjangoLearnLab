@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import Book
 
-# I'm creating a serializer for the Book model
+# this is for making books into json or something like that
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'  # this will include all fields from the Book model
+        fields = '__all__'

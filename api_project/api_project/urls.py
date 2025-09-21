@@ -17,8 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# main urls for the whole project
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # include the api app urls
+    path('api/', include('api.urls')),
 ]
