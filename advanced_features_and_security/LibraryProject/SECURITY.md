@@ -7,7 +7,7 @@ I added security settings to protect my Django app.
 In settings.py I added:
 ```python
 SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'  
+X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
@@ -17,7 +17,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 I added {% csrf_token %} to all my forms:
 - book_create.html
-- book_edit.html  
+- book_edit.html
 - book_delete.html
 - form_example.html
 
