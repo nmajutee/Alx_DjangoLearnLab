@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Test - Bookshelf App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .permission-granted { color: green; font-weight: bold; }
+        .permission-denied { color: red; font-weight: bold; }
+        .group { background: #f0f0f0; padding: 10px; margin: 5px 0; border-radius: 5px; }
+        .warning { background: #fff3cd; padding: 15px; border: 1px solid #ffeaa7; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Security Test Page</h1>
+
+    <div class="warning">
+        <strong>Permission Testing:</strong> This page shows your current permissions for the Book model.
+    </div>
+
+    <h2>Current User: {{ user.username }}</h2>
+
+    <h3>User Groups:</h3>
+    {% if user_groups %}
+        {% for group in user_groups %}
+            <div class="group">{{ group.name }}</div>
+        {% endfor %}
+    {% else %}
+        <p>No groups assigned</p>
+    {% endif %}
+
+    <h3>Book Permissions:</h3>
+    <ul>
+        <li>
+            Can View Books:
+            {% if permissions.can_view %}
+                <span class="permission-granted">✓ GRANTED</span>
+            {% else %}
+                <span class="permission-denied">✗ DENIED</span>
+            {% endif %}
+        </li>
+        <li>
+            Can Create Books:
+            {% if permissions.can_create %}
+                <span class="permission-granted">✓ GRANTED</span>
+            {% else %}
+                <span class="permission-denied">✗ DENIED</span>
+            {% endif %}
+        </li>
+        <li>
+            Can Edit Books:
+            {% if permissions.can_edit %}
+                <span class="permission-granted">✓ GRANTED</span>
+            {% else %}
+                <span class="permission-denied">✗ DENIED</span>
+            {% endif %}
+        </li>
+        <li>
+            Can Delete Books:
+            {% if permissions.can_delete %}
+                <span class="permission-granted">✓ GRANTED</span>
+            {% else %}
+                <span class="permission-denied">✗ DENIED</span>
+            {% endif %}
+        </li>
+    </ul>
+
+    <h3>Test Links:</h3>
+    <p>Try accessing these views to test permission enforcement:</p>
+    <ul>
+        <li><a href="{% url 'bookshelf:book_list' %}">View Books</a> (requires can_view)</li>
+        <li><a href="{% url 'bookshelf:book_create' %}">Create Book</a> (requires can_create)</li>
+        <li>Edit Book (requires can_edit) - available on book detail pages</li>
+        <li>Delete Book (requires can_delete) - available on book detail pages</li>
+    </ul>
+
+    <h3>Navigation:</h3>
+    <ul>
+        <li><a href="/admin/">Django Admin</a></li>
+        <li><a href="/admin/logout/">Logout</a></li>
+    </ul>
+</body>
+</html>

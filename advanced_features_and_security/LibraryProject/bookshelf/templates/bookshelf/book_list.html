@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List - Bookshelf</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .book { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .book-title { font-size: 18px; font-weight: bold; color: #333; }
+        .book-author { color: #666; }
+        .book-details { font-size: 14px; color: #888; margin-top: 10px; }
+        .actions { margin-top: 10px; }
+        .btn { padding: 5px 10px; margin-right: 10px; text-decoration: none; border-radius: 3px; }
+        .btn-view { background: #007bff; color: white; }
+        .btn-edit { background: #28a745; color: white; }
+        .btn-delete { background: #dc3545; color: white; }
+        .no-books { text-align: center; padding: 40px; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Book Library</h1>
+
+    <p><strong>Current User:</strong> {{ user.username }} |
+       <a href="{% url 'bookshelf:security_test' %}">View My Permissions</a> |
+       <a href="/admin/">Admin</a>
+    </p>
+
+    {% if user.has_perm:'bookshelf.can_create' %}
+        <p><a href="{% url 'bookshelf:book_create' %}" class="btn btn-edit">Create New Book</a></p>
+    {% endif %}
+
+    {% if books %}
+        {% for book in books %}
+        <div class="book">
+            <div class="book-title">{{ book.title }}</div>
+            <div class="book-author">by {{ book.author }}</div>
+            <div class="book-details">
+                Published: {{ book.publication_date }} |
+                ISBN: {{ book.isbn }} |
+                Pages: {{ book.pages }} |
+                {% if book.available %}
+                    <span style="color: green;">Available</span>
+                {% else %}
+                    <span style="color: red;">Not Available</span>
+                {% endif %}
+            </div>
+            <div class="actions">
+                <a href="{% url 'bookshelf:book_detail' book.pk %}" class="btn btn-view">View Details</a>
+                {% if user.has_perm:'bookshelf.can_edit' %}
+                    <a href="{% url 'bookshelf:book_edit' book.pk %}" class="btn btn-edit">Edit</a>
+                {% endif %}
+                {% if user.has_perm:'bookshelf.can_delete' %}
+                    <a href="{% url 'bookshelf:book_delete' book.pk %}" class="btn btn-delete">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-books">
+            <h3>No books in the library yet.</h3>
+            {% if user.has_perm:'bookshelf.can_create' %}
+                <p><a href="{% url 'bookshelf:book_create' %}" class="btn btn-edit">Add the first book</a></p>
+            {% else %}
+                <p>You don't have permission to add books.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
