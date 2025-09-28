@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend  # for exact filtering
-from rest_framework import filters  # for search and ordering
+from django_filters import rest_framework as filters  # for exact filtering
+from rest_framework import filters as drf_filters  # for search and ordering
 from .models import Book
 from .serializers import BookSerializer
 
@@ -13,7 +13,7 @@ class BookListView(generics.ListAPIView):
     serializer_class = BookSerializer  # use BookSerializer to convert to json
 
     # filtering stuff - not sure how all this works but it does
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [filters.DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter]
 
     # these let you filter by exact values
     filterset_fields = ['title', 'author', 'publication_year']
