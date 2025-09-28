@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',  # for api stuff
+    'django_filters',  # for filtering stuff i think
     'api',  # my app
 ]
 
@@ -129,5 +130,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',  # for browser login
         'rest_framework.authentication.BasicAuthentication',  # basic auth
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',  # for filtering
+        'rest_framework.filters.SearchFilter',  # for searching
+        'rest_framework.filters.OrderingFilter',  # for ordering
     ]
 }

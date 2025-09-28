@@ -1,13 +1,37 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend  # for exact filtering
+from rest_framework import filters  # for search and ordering
 from .models import Book
 from .serializers import BookSerializer
 
 # view to list all books - anyone can see this
+# now has filtering, searching and ordering (copied from tutorial)
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()  # get all books from database
     serializer_class = BookSerializer  # use BookSerializer to convert to json
+
+    # filtering stuff - not sure how all this works but it does
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+    # these let you filter by exact values
+    filterset_fields = ['title', 'author', 'publication_year']
+
+    # these let you search with partial matches
+    search_fields = ['title', 'author__name']  # author__name goes to related model
+
+    # these let you sort the results
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # books sorted by title by default
+
+    # how to use (just add to url):
+    # ?title=Harry Potter - find books with exact title
+    # ?author=1 - find books by author id 1
+    # ?publication_year=1997 - find books from 1997
+    # ?search=harry - search for 'harry' in title or author name
+    # ?ordering=publication_year - sort by year (old to new)
+    # ?ordering=-title - sort by title (z to a)
 
 # view to get one book by id - anyone can see this too
 class BookDetailView(generics.RetrieveAPIView):
