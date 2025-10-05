@@ -52,7 +52,7 @@ class BookAPITests(APITestCase):
         response = self.client.post('/api/books/create/', data)
         self.assertEqual(response.status_code, 201)  # should be created
         self.assertEqual(Book.objects.count(), 2)  # now have 2 books
-        
+
     def test_create_book_with_login(self):
         # another way to login - found this online
         login_success = self.client.login(username='testuser', password='testpass')
