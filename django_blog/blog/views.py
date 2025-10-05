@@ -11,8 +11,11 @@ Views:
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm, PostForm
+from .models import Post
 
 def register(request):
     """
@@ -27,27 +30,6 @@ def register(request):
     2. Automatically logs in the user
     3. Redirects to the user's profile page
 
-    Args:
-        request (HttpRequest): The HTTP request object containing method and POST data.
-
-    Returns:
-        HttpResponse:
-            - On GET: Renders the registration form
-            - On successful POST: Redirects to 'profile'
-            - On invalid POST: Re-renders form with validation errors
-
-    Template:
-        blog/register.html
-
-    Context:
-        form (CustomUserCreationForm): The registration form instance
-
-    Example Flow:
-        1. User accesses /register/ (GET request)
-        2. User fills in username, email, password
-        3. User submits form (POST request)
-        4. If valid: user created, logged in, redirected to profile
-        5. If invalid: form redisplayed with errors
     """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -74,29 +56,6 @@ def profile(request):
     - GET: Displays current user information (username, email, join date)
     - POST: Updates user's email address
 
-    Args:
-        request (HttpRequest): The HTTP request object.
-                              request.user contains the authenticated user.
-
-    Returns:
-        HttpResponse:
-            - On GET: Renders profile page with user data
-            - On POST: Updates email and redirects back to profile
-
-    Template:
-        blog/profile.html
-
-    Context:
-        Automatic: The 'user' object is available in template via context processor
-
-    Security:
-        - @login_required ensures only authenticated users can access
-        - Users can only view/edit their own profile
-        - LOGIN_URL setting determines redirect for unauthenticated users
-
-    Example Usage:
-        GET /profile/ -> Display user info
-        POST /profile/ with email=newemail@example.com -> Update email
     """
     if request.method == 'POST':
         # Get new email from form submission
@@ -109,3 +68,48 @@ def profile(request):
 
     # GET request: just display the profile
     return render(request, 'blog/profile.html')
+
+
+class PostListView(ListView):
+    """
+    Display a list of all blog posts.
+    This view shows all published blog posts ordered by newest first.
+    Accessible to all users (no login required).
+    """
+
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-published_date']
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    success_url = reverse_lazy('post-list')
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author

@@ -9,30 +9,11 @@ Models:
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 class Post(models.Model):
     """
     Model representing a blog post.
-
-    Attributes:
-        title (CharField): The title of the blog post (max 200 characters).
-        content (TextField): The main content/body of the blog post.
-        published_date (DateTimeField): Timestamp when the post was created (auto-generated).
-        author (ForeignKey): Reference to the User who created the post.
-                            Uses CASCADE deletion - if user is deleted, their posts are also deleted.
-
-    Methods:
-        __str__: Returns the title of the post as its string representation.
-
-    Example:
-        >>> post = Post.objects.create(
-        ...     title="My First Post",
-        ...     content="This is the content of my first blog post.",
-        ...     author=user
-        ... )
-        >>> print(post)
-        'My First Post'
     """
 
     title = models.CharField(max_length=200)
@@ -43,4 +24,7 @@ class Post(models.Model):
     def __str__(self):
         """Return string representation of the post (its title)."""
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
 
