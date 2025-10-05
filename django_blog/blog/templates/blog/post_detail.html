@@ -43,6 +43,11 @@
         {% endif %}
         <hr>
     </div>
+    <p>Tags:
+    {% for tag in post.tags.all %}
+        <a href="{% url 'tagged-posts' tag.slug %}">#{{ tag }}</a>
+    {% endfor %}
+    </p>
     {% endfor %}
 {% else %}
     <p>No comments yet. Be the first to comment!</p>

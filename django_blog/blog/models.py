@@ -10,6 +10,7 @@ Models:
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 class Post(models.Model):
     """
@@ -20,6 +21,7 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    tags = TaggableManager()
 
     def __str__(self):
         """Return string representation of the post (its title)."""
