@@ -127,3 +127,22 @@ STATICFILES_DIRS = [BASE_DIR / 'blog' / 'static']
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ==============================================================================
+# AUTHENTICATION SETTINGS
+# ==============================================================================
+# These settings control the behavior of Django's authentication system.
+
+# LOGIN_REDIRECT_URL: Where to redirect users after successful login
+# Default behavior: If no 'next' parameter is provided, redirect here
+LOGIN_REDIRECT_URL = 'profile'
+
+# LOGOUT_REDIRECT_URL: Where to redirect users after logout
+# Users will be sent to the login page after logging out
+LOGOUT_REDIRECT_URL = 'login'
+
+# LOGIN_URL: Where to redirect users when @login_required decorator is triggered
+# If an unauthenticated user tries to access a protected view (like profile),
+# they will be redirected to this URL
+LOGIN_URL = 'login'
