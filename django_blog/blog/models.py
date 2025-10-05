@@ -1,22 +1,13 @@
-"""
-Blog Models
------------
-This module defines the database models for the blog application.
-
-Models:
-    Post: Represents a blog post with title, content, author, and publish date.
-"""
+"""Blog application models: Post and Comment."""
 
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
 
-class Post(models.Model):
-    """
-    Model representing a blog post.
-    """
 
+class Post(models.Model):
+    """Blog post model with tagging support."""
     title = models.CharField(max_length=200)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
@@ -24,13 +15,13 @@ class Post(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        """Return string representation of the post (its title)."""
         return self.title
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
 class Comment(models.Model):
+    """Comment model for blog posts."""
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField()

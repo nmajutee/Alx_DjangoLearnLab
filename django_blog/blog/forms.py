@@ -1,11 +1,4 @@
-"""
-Blog Forms
-----------
-This module contains custom forms for user authentication and registration.
-
-Forms:
-    CustomUserCreationForm: Extended user registration form with additional fields.
-"""
+"""Blog forms: user registration, posts, and comments."""
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -15,11 +8,7 @@ from taggit.forms import TagWidget
 
 
 class CustomUserCreationForm(UserCreationForm):
-    """
-    Custom user registration form extending Django's built-in UserCreationForm.
-    This form adds email and phone fields to the default username and password fields.
-    """
-
+    """Extended user registration with email and phone fields."""
     email = forms.EmailField(required=True)
     phone = forms.CharField(max_length=15, required=False)
 
@@ -28,12 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'phone', 'password1', 'password2']
 
 class PostForm(forms.ModelForm):
-    """
-    Form for creating and updating blog posts.
-    Automatically handles validation for title and content fields.
-    Author and publication date are set automatically in the view.
-    """
-
+    """Form for creating/updating blog posts with tags."""
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']

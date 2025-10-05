@@ -1,12 +1,4 @@
-"""
-Blog Views
-----------
-This module contains view functions for user authentication and profile management.
-
-Views:
-    register: Handles user registration with auto-login after successful signup.
-    profile: Displays and allows editing of user profile information (login required).
-"""
+"""Blog views: authentication, posts, comments, search."""
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
@@ -20,65 +12,31 @@ from django.db.models import Q
 
 
 def register(request):
-    """
-    Handle user registration.
-
-    This view processes both GET and POST requests:
-    - GET: Displays an empty registration form
-    - POST: Validates and processes the registration form
-
-    On successful registration:
-    1. Creates a new user account
-    2. Automatically logs in the user
-    3. Redirects to the user's profile page
-
-    """
+    """Handle user registration with auto-login."""
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the new user to database
-            login(request, user)  # Automatically log the user in
-            return redirect('profile')  # Redirect to profile page
+            user = form.save()
+            login(request, user)
+            return redirect('profile')
     else:
-        form = CustomUserCreationForm()  # Create empty form for GET request
-
+        form = CustomUserCreationForm()
     return render(request, 'blog/register.html', {'form': form})
 
 
 @login_required
 def profile(request):
-    """
-    Display and update user profile information.
-
-    This view is protected by @login_required decorator, which:
-    - Redirects unauthenticated users to the login page
-    - Only allows authenticated users to access their profile
-
-    Functionality:
-    - GET: Displays current user information (username, email, join date)
-    - POST: Updates user's email address
-
-    """
+    """Display and update user profile (login required)."""
     if request.method == 'POST':
-        # Get new email from form submission
         new_email = request.POST.get('email')
-        # Update the user's email
         request.user.email = new_email
         request.user.save()
-        # Redirect back to profile to show updated information
         return redirect('profile')
-
-    # GET request: just display the profile
     return render(request, 'blog/profile.html')
 
 
 class PostListView(ListView):
-    """
-    Display a list of all blog posts.
-    This view shows all published blog posts ordered by newest first.
-    Accessible to all users (no login required).
-    """
-
+    """List all blog posts (newest first)."""
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
@@ -153,6 +111,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
 
 def search_posts(request):
+    """Search posts by title, content, or tags."""
     query = request.GET.get('q', '')
     results = Post.objects.filter(
         Q(title__icontains=query) |
@@ -161,7 +120,9 @@ def search_posts(request):
     ).distinct()
     return render(request, 'blog/search_results.html', {'results': results, 'query': query})
 
-class TaggedPostListView(ListView):
+
+class PostByTagListView(ListView):
+    """Display posts filtered by tag."""
     model = Post
     template_name = 'blog/tagged_posts.html'
     context_object_name = 'posts'

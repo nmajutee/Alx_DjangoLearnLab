@@ -1,16 +1,4 @@
-"""
-Blog URL Configuration
-----------------------
-This module defines URL patterns for the blog application's authentication system.
-
-URL Patterns:
-    /register/ - User registration page
-    /login/ - User login page
-    /logout/ - User logout page
-    /profile/ - User profile page (login required)
-
-All URLs are namespaced under the blog app.
-"""
+"""Blog URL patterns: authentication, posts, comments, search, tags."""
 
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
@@ -38,5 +26,5 @@ urlpatterns = [
 
     # Search and tags
     path('search/', views.search_posts, name='search'),
-    path('tags/<slug:tag_slug>/', views.TaggedPostListView.as_view(), name='tagged-posts'),
+    path('tags/<slug:tag_slug>/', views.PostByTagListView.as_view(), name='tagged-posts'),
 ]
