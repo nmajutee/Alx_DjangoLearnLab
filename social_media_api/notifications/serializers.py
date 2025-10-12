@@ -5,7 +5,7 @@ from .models import Notification
 class NotificationSerializer(serializers.ModelSerializer):
     actor = serializers.ReadOnlyField(source='actor.username')
     actor_id = serializers.ReadOnlyField(source='actor.id')
-    
+
     class Meta:
         model = Notification
         fields = ['id', 'actor', 'actor_id', 'verb', 'target_content_type', 'target_object_id', 'timestamp', 'read']

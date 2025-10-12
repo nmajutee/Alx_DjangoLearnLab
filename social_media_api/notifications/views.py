@@ -7,7 +7,7 @@ from .serializers import NotificationSerializer
 class NotificationListView(generics.ListAPIView):
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def get_queryset(self):
         # get notifications for current user
         return Notification.objects.filter(recipient=self.request.user)
@@ -15,7 +15,7 @@ class NotificationListView(generics.ListAPIView):
 # view to mark notification as read
 class MarkNotificationReadView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def post(self, request, pk):
         try:
             notification = Notification.objects.get(pk=pk, recipient=request.user)

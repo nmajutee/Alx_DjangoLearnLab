@@ -57,7 +57,7 @@ class FollowUserView(generics.GenericAPIView):
 
         # add to following list
         request.user.following.add(user_to_follow)
-        
+
         # create notification
         Notification.objects.create(
             recipient=user_to_follow,
@@ -65,7 +65,7 @@ class FollowUserView(generics.GenericAPIView):
             verb='started following you',
             target=user_to_follow
         )
-        
+
         return Response({'message': f'you are now following {user_to_follow.username}'})
 
 # view to unfollow a user
