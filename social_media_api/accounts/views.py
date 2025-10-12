@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from .models import CustomUser
 
 User = get_user_model()
 
@@ -68,3 +69,13 @@ class UnfollowUserView(generics.GenericAPIView):
         # remove from following list
         request.user.following.remove(user_to_unfollow)
         return Response({'message': f'you unfollowed {user_to_unfollow.username}'})
+
+# view to list all users
+class UserListView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        # get all users using CustomUser.objects.all()
+        all_users = CustomUser.objects.all()
+        serializer = UserSerializer(all_users, many=True)
+        return Response(serializer.data)
