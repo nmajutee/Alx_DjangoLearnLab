@@ -10,12 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 # serializer for registring new users
 class RegisterSerializer(serializers.ModelSerializer):
-    # using serializers.CharField() for password field
-    password = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'bio']
 
     def create(self, validated_data):
         # create new user using create_user method
