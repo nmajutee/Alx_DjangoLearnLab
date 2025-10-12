@@ -1,5 +1,6 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, generics
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 
@@ -38,3 +39,15 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # set the author to current user when creating comment
         serializer.save(author=self.request.user)
+
+# view for user feed - shows posts from users they follow
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = PostPagination
+    
+    def get_queryset(self):
+        # get users that current user is following
+        following_users = self.request.user.following.all()
+        # get posts from those users, ordered by newest first
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')

@@ -155,4 +155,53 @@ curl -X POST http://localhost:8000/api/comments/ \
 
 see POSTS_API_DOCUMENTATION.md for full details!
 
+---
+
+## Follow System and Feed
+
+### new features
+- follow other users
+- unfollow users
+- personalized feed showing posts from people you follow
+- feed is sorted by newest posts first
+
+### follow endpoints
+
+**Follow:**
+- `POST /api/follow/<user_id>/` - follow a user (need token)
+
+**Unfollow:**
+- `POST /api/unfollow/<user_id>/` - unfollow a user (need token)
+
+**Feed:**
+- `GET /api/feed/` - see posts from users you follow (need token)
+
+### quick example
+
+1. follow a user:
+```bash
+curl -X POST http://localhost:8000/api/follow/2/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+2. check your feed:
+```bash
+curl http://localhost:8000/api/feed/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+3. unfollow a user:
+```bash
+curl -X POST http://localhost:8000/api/unfollow/2/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+### how it works
+- follow users to see their posts in your feed
+- feed only shows posts from users you follow
+- cant follow yourself
+- following is one-way (not automatic mutual)
+
+see FOLLOW_FEED_DOCUMENTATION.md for more info!
+
 thats all!

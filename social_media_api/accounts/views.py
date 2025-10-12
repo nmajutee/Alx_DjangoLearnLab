@@ -1,10 +1,11 @@
-from rest_framework import status
+from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
@@ -39,3 +40,31 @@ class LoginView(APIView):
             })
         else:
             return Response({'error': 'wrong credentials'}, status=400)
+
+# view to follow a user
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request, user_id):
+        # get the user to follow
+        user_to_follow = get_object_or_404(User, id=user_id)
+        
+        # cant follow yourself
+        if user_to_follow == request.user:
+            return Response({'error': 'you cant follow yourself'}, status=400)
+        
+        # add to following list
+        request.user.following.add(user_to_follow)
+        return Response({'message': f'you are now following {user_to_follow.username}'})
+
+# view to unfollow a user
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request, user_id):
+        # get the user to unfollow
+        user_to_unfollow = get_object_or_404(User, id=user_id)
+        
+        # remove from following list
+        request.user.following.remove(user_to_unfollow)
+        return Response({'message': f'you unfollowed {user_to_unfollow.username}'})
