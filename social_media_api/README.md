@@ -204,4 +204,66 @@ curl -X POST http://localhost:8000/api/unfollow/2/ \
 
 see FOLLOW_FEED_DOCUMENTATION.md for more info!
 
+---
+
+## Likes and Notifications
+
+### new features
+- like posts
+- unlike posts
+- get notifications when someone follows you, likes your post, or comments on your post
+- mark notifications as read
+- can only like a post once
+
+### like endpoints
+
+**Like:**
+- `POST /api/posts/<post_id>/like/` - like a post (need token)
+
+**Unlike:**
+- `POST /api/posts/<post_id>/unlike/` - unlike a post (need token)
+
+### notification endpoints
+
+**List:**
+- `GET /api/notifications/` - see all your notifications (need token)
+
+**Mark as read:**
+- `POST /api/notifications/<notification_id>/read/` - mark notification as read (need token)
+
+### quick example
+
+1. like a post:
+```bash
+curl -X POST http://localhost:8000/api/posts/1/like/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+2. see notifications:
+```bash
+curl http://localhost:8000/api/notifications/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+3. mark notification as read:
+```bash
+curl -X POST http://localhost:8000/api/notifications/1/read/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+4. unlike a post:
+```bash
+curl -X POST http://localhost:8000/api/posts/1/unlike/ \
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+### how it works
+- notifications created automatically when:
+  - someone follows you
+  - someone likes your post
+  - someone comments on your post
+- cant like same post twice
+- cant like your own post (no notification created)
+- notifications show who did the action and when
+
 thats all!
